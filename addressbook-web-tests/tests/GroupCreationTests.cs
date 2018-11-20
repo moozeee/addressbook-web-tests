@@ -12,7 +12,7 @@ namespace WebAddressbookTests
         public void GroupCreationTest()
         {
             appManager.Navigator.GoToGroupsPage();
-            appManager.Groups.Create();
+            appManager.Groups.Create(false);
             appManager.Auth.Logout();
         }
     }

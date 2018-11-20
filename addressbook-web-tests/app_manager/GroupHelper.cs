@@ -15,10 +15,13 @@ namespace WebAddressbookTests
         {
         }
 
-        public GroupHelper Create()
+        public GroupHelper Create(bool empty)
         {
             InitNewGroupCreation();
-            FillGroupFields(GetRandomGroupData());
+            if (!empty)
+            {
+                FillGroupFields(GetRandomGroupData());
+            }
             SubmitGroup();
             ReturnToGroupsPage();
             return this;

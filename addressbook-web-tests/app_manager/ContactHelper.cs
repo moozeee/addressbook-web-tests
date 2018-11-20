@@ -45,7 +45,6 @@ namespace WebAddressbookTests
             }
             else
             {
-
                 contact = HelperBase.GetRandomObjectData(HelperBase.availableData.Contact);
             }
             return contact;
