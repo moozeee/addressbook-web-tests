@@ -8,10 +8,10 @@ namespace WebAddressbookTests
         {
         }
 
-        public ContactHelper CreateContact()
+        public ContactHelper CreateContact(bool empty)
         {
             InitNewContactCreation();
-            FillContactForm(GetRandomContactData());
+            FillContactForm(GetRandomContactData(empty));
             return this;
         }
 
@@ -36,9 +36,18 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public static ContactData GetRandomContactData()
+        public static ContactData GetRandomContactData(bool empty)
         {
-            ContactData contact = HelperBase.GetRandomObjectData(HelperBase.availableData.Contact);
+            ContactData contact;
+            if (empty)
+            {
+                contact = new ContactData();
+            }
+            else
+            {
+
+                contact = HelperBase.GetRandomObjectData(HelperBase.availableData.Contact);
+            }
             return contact;
         }
     }
