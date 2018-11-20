@@ -11,13 +11,8 @@ namespace WebAddressbookTests
         [Test]
         public void GroupCreationTest()
         {
-            appManager.Navigator.GoToMainPage();
-            appManager.Auth.Login(new AccountData("admin", "secret"));
             appManager.Navigator.GoToGroupsPage();
-            appManager.Groups.InitNewGroupCreation();
-            appManager.Groups.FillGroupFields(GetRandomGroupData());
-            appManager.Groups.SubmitGroup();
-            appManager.Groups.ReturnToGroupsPage();
+            appManager.Groups.Create();
             appManager.Auth.Logout();
         }
     }

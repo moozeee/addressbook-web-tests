@@ -7,7 +7,15 @@ namespace WebAddressbookTests
         public ContactHelper(IWebDriver _driver) : base (_driver)
         {
         }
-        public void FillContactForm(ContactData _contactData)
+
+        public ContactHelper CreateContact()
+        {
+            InitNewContactCreation();
+            FillContactForm(GetRandomContactData());
+            return this;
+        }
+
+        public ContactHelper FillContactForm(ContactData _contactData)
         {
             driver.FindElement(By.Name("firstname")).Clear();
             driver.FindElement(By.Name("firstname")).SendKeys(_contactData.FirstName);
@@ -19,11 +27,19 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("nickname")).SendKeys(_contactData.NickName);
             System.Threading.Thread.Sleep(2000);
             driver.FindElement(By.XPath("(//input[@name='submit'])")).Click();
+            return this;
         }
 
-        public void InitNewContactCreation()
+        public ContactHelper InitNewContactCreation()
         {
             driver.FindElement(By.LinkText("add new")).Click();
+            return this;
+        }
+
+        public static ContactData GetRandomContactData()
+        {
+            ContactData contact = HelperBase.GetRandomObjectData(HelperBase.availableData.Contact);
+            return contact;
         }
     }
 }

@@ -13,24 +13,14 @@ namespace WebAddressbookTests
         public void SetupTest()
         {
             appManager = new AppManager();
+            appManager.Navigator.GoToMainPage();
+            appManager.Auth.Login(new AccountData("admin", "secret"));
         }
 
         [TearDown]
         public void TeardownTest()
         {
             appManager.StopDriver();
-        }
-
-        public static GroupData GetRandomGroupData()
-        {
-            GroupData group = HelperBase.GetRandomObjectData(HelperBase.availableData.Group);
-            return group;
-        }
-
-        public static ContactData GetRandomContactData()
-        {
-            ContactData contact = HelperBase.GetRandomObjectData(HelperBase.availableData.Contact);
-            return contact;
         }
     }
 }
