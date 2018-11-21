@@ -11,7 +11,20 @@ namespace WebAddressbookTests
         public ContactHelper CreateContact(bool empty)
         {
             InitNewContactCreation();
-            FillContactForm(GetRandomContactData(empty));
+            if (!empty)
+            {
+                FillContactForm(GetRandomContactData());
+            }
+            SubmitContact();
+            return this;
+        }
+
+        public ContactHelper CreateContact(string a, string b)
+        {
+            InitNewContactCreation();
+            ContactData data = new ContactData(a, b);
+            FillContactForm(data);
+            SubmitContact();
             return this;
         }
 
@@ -25,7 +38,11 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("lastname")).SendKeys(_contactData.LastName);
             driver.FindElement(By.Name("nickname")).Clear();
             driver.FindElement(By.Name("nickname")).SendKeys(_contactData.NickName);
-            System.Threading.Thread.Sleep(2000);
+            return this;
+        }
+
+        public ContactHelper SubmitContact()
+        {
             driver.FindElement(By.XPath("(//input[@name='submit'])")).Click();
             return this;
         }
@@ -36,17 +53,12 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public static ContactData GetRandomContactData(bool empty)
+        public static ContactData GetRandomContactData()
         {
-            ContactData contact;
-            if (empty)
-            {
-                contact = new ContactData();
-            }
-            else
-            {
-                contact = HelperBase.GetRandomObjectData(HelperBase.availableData.Contact);
-            }
+            //ContactData contact = HelperBase.GetRandomObjectData(HelperBase.availableData.Contact);
+            ContactData contact = new ContactData(GetRandomWord(), GetRandomWord());
+            contact.MiddleName = GetRandomWord();
+            contact.NickName = GetRandomWord();
             return contact;
         }
     }

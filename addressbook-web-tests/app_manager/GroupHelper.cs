@@ -77,7 +77,10 @@ namespace WebAddressbookTests
 
         public static GroupData GetRandomGroupData()
         {
-            GroupData group = HelperBase.GetRandomObjectData(HelperBase.availableData.Group);
+            //GroupData group = HelperBase.GetRandomObjectData(HelperBase.availableData.Group);
+            GroupData group = new GroupData(GetRandomWord());
+            group.Header = GetRandomWord();
+            group.Footer = GetRandomWord();
             return group;
         }
     }

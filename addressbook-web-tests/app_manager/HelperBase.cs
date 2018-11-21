@@ -36,23 +36,23 @@ namespace WebAddressbookTests
             return word;
         }
 
-        public static dynamic GetRandomObjectData(availableData data)
-        {
-            object defaultData = null;
-            switch (data)
-            {
-                case availableData.Contact:
-                    ContactData contactData = new ContactData(GetRandomWord(), GetRandomWord());
-                    contactData.MiddleName = GetRandomWord();
-                    contactData.NickName = GetRandomWord();
-                    return contactData;
-                case availableData.Group:
-                    GroupData groupData = new GroupData(GetRandomWord());
-                    groupData.Header = GetRandomWord();
-                    groupData.Footer = GetRandomWord();
-                    return groupData;
-            }
-            return defaultData;
-        }
+        //public static dynamic GetRandomObjectData(availableData data)
+        //{
+        //    object defaultData = null;
+        //    switch (data)
+        //    {
+        //        case availableData.Contact:
+        //            ContactData contactData = new ContactData(GetRandomWord(), GetRandomWord());
+        //            contactData.MiddleName = GetRandomWord();
+        //            contactData.NickName = GetRandomWord();
+        //            return contactData;
+        //        case availableData.Group:
+        //            GroupData groupData = new GroupData(GetRandomWord());
+        //            groupData.Header = GetRandomWord();
+        //            groupData.Footer = GetRandomWord();
+        //            return groupData;
+        //    }
+        //    return defaultData;
+        //}
     }
 }
