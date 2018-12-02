@@ -3,10 +3,10 @@
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupRemovalTests : TestBase
+    public class ContactRemovalTests : TestBase
     {
         [Test]
-        public void GroupRemovalTest()
+        public void ContactRemovalTest()
         {
             //appManager.Navigator.GoToGroupsPage();
             //for (int i = 0; i < 5; i++)
@@ -16,7 +16,8 @@ namespace WebAddressbookTests
             //}
             //appManager.Auth.Logout();
 
-            appManager.Groups.RemoveGroup(2);
+            appManager.Contacts.RemoveContact(2);
+            System.Threading.Thread.Sleep(5000);
         }
     }
 }

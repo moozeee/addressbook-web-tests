@@ -11,9 +11,13 @@ namespace WebAddressbookTests
         [Test]
         public void GroupCreationTest()
         {
-            appManager.Navigator.GoToGroupsPage();
-            appManager.Groups.Create(false);
-            appManager.Auth.Logout();
+            appManager.Groups.CreateGroup();
+        }
+
+        [Test]
+        public void EmptyGroupCreationTest()
+        {
+            appManager.Groups.CreateEmptyGroup();
         }
     }
 }

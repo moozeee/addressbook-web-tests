@@ -20,6 +20,7 @@ namespace WebAddressbookTests
         [TearDown]
         public void TeardownTest()
         {
+            appManager.Auth.Logout();
             appManager.StopDriver();
         }
     }

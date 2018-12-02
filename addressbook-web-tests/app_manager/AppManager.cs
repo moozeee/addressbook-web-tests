@@ -7,23 +7,31 @@ namespace WebAddressbookTests
     public class AppManager
     {
         private IWebDriver driver;
-        private string baseURL;
+        public string baseURL;
 
         protected LoginHelper loginHelper;
         protected NavigationHelper navigationHelper;
         protected GroupHelper groupHelper;
         protected ContactHelper contactHelper;
-        
+
         public AppManager()
         {
             driver = new FirefoxDriver();
             driver.Manage().Window.Maximize();
             baseURL = "http://localhost";
-            
-            loginHelper = new LoginHelper(driver);
-            navigationHelper = new NavigationHelper(driver, baseURL);
-            groupHelper = new GroupHelper(driver);
-            contactHelper = new ContactHelper(driver);
+
+            loginHelper = new LoginHelper(this);
+            navigationHelper = new NavigationHelper(this, baseURL);
+            groupHelper = new GroupHelper(this);
+            contactHelper = new ContactHelper(this);
+        }
+
+        public IWebDriver Driver
+        {
+            get
+            {
+                return driver;
+            }
         }
         
         public LoginHelper Auth

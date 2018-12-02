@@ -11,18 +11,56 @@ namespace WebAddressbookTests
     public class GroupHelper : HelperBase
     {
 
-        public GroupHelper(IWebDriver _driver) : base(_driver)
+        public GroupHelper(AppManager _manager) : base(_manager)
         {
         }
 
-        public GroupHelper Create(bool empty)
+        public GroupHelper CreateEmptyGroup()
         {
+            _manager.Navigator.GoToGroupsPage();
             InitNewGroupCreation();
-            if (!empty)
-            {
-                FillGroupFields(GetRandomGroupData());
-            }
             SubmitGroup();
+            ReturnToGroupsPage();
+            return this;
+        }
+
+        public GroupHelper CreateGroup()
+        {
+            _manager.Navigator.GoToGroupsPage();
+            InitNewGroupCreation();
+            FillGroupFields(GetRandomGroupData());
+            SubmitGroup();
+            ReturnToGroupsPage();
+            return this;
+        }
+
+        public GroupHelper RemoveGroup(int groupNumber)
+        {
+            _manager.Navigator.GoToGroupsPage();
+            SelectGroup(groupNumber);
+            ClickRemoveButton();
+            ReturnToGroupsPage();
+            return this;
+        }
+
+        public GroupHelper ModifyGroup(int groupNum)
+        {
+            _manager.Navigator.GoToGroupsPage();
+            SelectGroup(groupNum);
+            InitGroupModification();
+            FillGroupFields(GetRandomGroupData());
+            UpdateGroup();
+            ReturnToGroupsPage();
+            return this;
+        }
+
+        public GroupHelper ModifyGroup(int groupNum, GroupData data)
+        {
+            _manager.Navigator.GoToGroupsPage();
+            SelectGroup(groupNum);
+            InitGroupModification();
+            FillGroupFields(data);
+            UpdateGroup();
             ReturnToGroupsPage();
             return this;
         }
@@ -30,6 +68,12 @@ namespace WebAddressbookTests
         public GroupHelper InitNewGroupCreation()
         {
             driver.FindElement(By.Name("new")).Click();
+            return this;
+        }
+
+        public GroupHelper InitGroupModification()
+        {
+            driver.FindElement(By.Name("edit")).Click();
             return this;
         }
 
@@ -45,10 +89,15 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public GroupHelper RemoveGroup()
+        public GroupHelper UpdateGroup()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+
+        private void ClickRemoveButton()
         {
             driver.FindElement(By.XPath("(//input[@name='delete'])[2]")).Click();
-            return this;
         }
 
         public GroupHelper FillGroupFields(GroupData data)
