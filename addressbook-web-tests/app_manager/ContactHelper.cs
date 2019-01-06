@@ -61,7 +61,9 @@ namespace WebAddressbookTests
 
         public ContactHelper InitContactModification(int contactNum)
         {
+            CreateContactIfItIsNotPresent();
             var rowNum = contactNum + 1;
+            _manager.Navigator.GoToHomePage();
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + rowNum + "]/td[8]/a/img")).Click();
             return this;
         }
@@ -78,7 +80,7 @@ namespace WebAddressbookTests
 
         public ContactHelper SelectContact(int contactNum)
         {
-            //driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index++ + "]/td[8]/a/img")).Click();
+            CreateContactIfItIsNotPresent();
             var rowNum = contactNum + 1;
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + rowNum + "]/td/input")).Click();
             return this;
@@ -86,14 +88,10 @@ namespace WebAddressbookTests
 
         public ContactHelper FillContactForm(ContactData _contactData)
         {
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(_contactData.FirstName);
-            driver.FindElement(By.Name("middlename")).Clear();
-            driver.FindElement(By.Name("middlename")).SendKeys(_contactData.MiddleName);
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(_contactData.LastName);
-            driver.FindElement(By.Name("nickname")).Clear();
-            driver.FindElement(By.Name("nickname")).SendKeys(_contactData.NickName);
+            Type(By.Name("firstname"), _contactData.FirstName);
+            Type(By.Name("middlename"), _contactData.MiddleName);
+            Type(By.Name("lastname"), _contactData.LastName);
+            Type(By.Name("nickname"), _contactData.NickName);
             return this;
         }
 
@@ -116,6 +114,16 @@ namespace WebAddressbookTests
             contact.MiddleName = GetRandomWord();
             contact.NickName = GetRandomWord();
             return contact;
+        }
+
+        private void CreateContactIfItIsNotPresent()
+        {
+            IWebElement itemsAmount = driver.FindElement(By.Id("search_count"));
+            if (Int32.Parse(itemsAmount.Text) == 0)
+            {
+                _manager.Contacts.CreateEmptyContact();
+                _manager.Navigator.GoToHomePage();
+            }
         }
     }
 }

@@ -3,7 +3,7 @@
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactRemovalTests : TestBase
+    public class ContactRemovalTests : AuthTestBase
     {
         [Test]
         public void ContactRemovalTest()
@@ -16,8 +16,7 @@ namespace WebAddressbookTests
             //}
             //appManager.Auth.Logout();
 
-            appManager.Contacts.RemoveContact(2);
-            System.Threading.Thread.Sleep(5000);
+            appManager.Contacts.RemoveContact(1);
         }
     }
 }

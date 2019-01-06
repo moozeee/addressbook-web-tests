@@ -3,7 +3,7 @@
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupRemovalTests : TestBase
+    public class GroupRemovalTests : AuthTestBase
     {
         [Test]
         public void GroupRemovalTest()
@@ -16,7 +16,7 @@ namespace WebAddressbookTests
             //}
             //appManager.Auth.Logout();
 
-            appManager.Groups.RemoveGroup(2);
+            appManager.Groups.RemoveGroup(1);
         }
     }
 }

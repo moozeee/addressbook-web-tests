@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 
@@ -14,7 +15,9 @@ namespace WebAddressbookTests
         protected GroupHelper groupHelper;
         protected ContactHelper contactHelper;
 
-        public AppManager()
+        private static ThreadLocal<AppManager> app = new ThreadLocal<AppManager>();
+
+        private AppManager()
         {
             driver = new FirefoxDriver();
             driver.Manage().Window.Maximize();
@@ -24,6 +27,26 @@ namespace WebAddressbookTests
             navigationHelper = new NavigationHelper(this, baseURL);
             groupHelper = new GroupHelper(this);
             contactHelper = new ContactHelper(this);
+        }
+
+        ~AppManager()
+        {
+            try
+            {
+                driver.Quit();
+            }
+            catch { }
+        }
+
+        public static AppManager GetInstance()
+        {
+            if (!app.IsValueCreated)
+            {
+                AppManager newInstance = new AppManager();
+                newInstance.Navigator.GoToMainPage();
+                app.Value = newInstance;
+            }
+            return app.Value;
         }
 
         public IWebDriver Driver
@@ -60,18 +83,6 @@ namespace WebAddressbookTests
             get
             {
                 return contactHelper;
-            }
-        }
-
-        public void StopDriver()
-        {
-            try
-            {
-                driver.Quit();
-            }
-            catch (Exception)
-            {
-                // Ignore errors if unable to close the browser
             }
         }
     }
