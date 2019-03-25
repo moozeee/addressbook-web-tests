@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using OpenQA.Selenium;
 
 namespace WebAddressbookTests
@@ -6,23 +7,53 @@ namespace WebAddressbookTests
     public class AppManager
     {
         private IWebDriver driver;
-        private string baseURL;
+        public string baseURL;
 
         protected LoginHelper loginHelper;
         protected NavigationHelper navigationHelper;
         protected GroupHelper groupHelper;
         protected ContactHelper contactHelper;
-        
-        public AppManager()
+
+        private static ThreadLocal<AppManager> app = new ThreadLocal<AppManager>();
+
+        private AppManager()
         {
             driver = new OpenQA.Selenium.Chrome.ChromeDriver();
             driver.Manage().Window.Maximize();
             baseURL = "http://localhost";
-            
-            loginHelper = new LoginHelper(driver);
-            navigationHelper = new NavigationHelper(driver, baseURL);
-            groupHelper = new GroupHelper(driver);
-            contactHelper = new ContactHelper(driver);
+
+            loginHelper = new LoginHelper(this);
+            navigationHelper = new NavigationHelper(this, baseURL);
+            groupHelper = new GroupHelper(this);
+            contactHelper = new ContactHelper(this);
+        }
+
+        ~AppManager()
+        {
+            try
+            {
+                driver.Quit();
+            }
+            catch { }
+        }
+
+        public static AppManager GetInstance()
+        {
+            if (!app.IsValueCreated)
+            {
+                AppManager newInstance = new AppManager();
+                newInstance.Navigator.GoToMainPage();
+                app.Value = newInstance;
+            }
+            return app.Value;
+        }
+
+        public IWebDriver Driver
+        {
+            get
+            {
+                return driver;
+            }
         }
         
         public LoginHelper Auth
@@ -51,18 +82,6 @@ namespace WebAddressbookTests
             get
             {
                 return contactHelper;
-            }
-        }
-
-        public void StopDriver()
-        {
-            try
-            {
-                driver.Quit();
-            }
-            catch (Exception)
-            {
-                // Ignore errors if unable to close the browser
             }
         }
     }

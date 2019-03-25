@@ -6,13 +6,15 @@ namespace WebAddressbookTests
 {
     public class HelperBase
     {
+        protected AppManager _manager;
         protected IWebDriver driver;
-        protected string baseURL;
+
         public enum availableData { Contact, Group };
 
-        public HelperBase(IWebDriver _driver)
+        public HelperBase(AppManager manager)
         {
-            this.driver = _driver;
+            this._manager = manager;
+            driver = _manager.Driver;
         }
         public static string GetRandomWord()
         {
@@ -36,23 +38,26 @@ namespace WebAddressbookTests
             return word;
         }
 
-        //public static dynamic GetRandomObjectData(availableData data)
-        //{
-        //    object defaultData = null;
-        //    switch (data)
-        //    {
-        //        case availableData.Contact:
-        //            ContactData contactData = new ContactData(GetRandomWord(), GetRandomWord());
-        //            contactData.MiddleName = GetRandomWord();
-        //            contactData.NickName = GetRandomWord();
-        //            return contactData;
-        //        case availableData.Group:
-        //            GroupData groupData = new GroupData(GetRandomWord());
-        //            groupData.Header = GetRandomWord();
-        //            groupData.Footer = GetRandomWord();
-        //            return groupData;
-        //    }
-        //    return defaultData;
-        //}
+        protected void Type(By locator, string text)
+        {
+            if (text != null)
+            {
+                driver.FindElement(locator).Clear();
+                driver.FindElement(locator).SendKeys(text);
+            }
+        }
+
+        protected bool IsElementPresent(By by)
+        {
+            try
+            {
+                driver.FindElement(by);
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
     }
 }

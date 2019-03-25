@@ -3,24 +3,15 @@ using NUnit.Framework;
 
 namespace WebAddressbookTests
 {
-    [TestFixture]
     public class TestBase
     {
         protected HelperBase helperBase;
-        public AppManager appManager;
+        protected AppManager appManager;
 
         [SetUp]
-        public void SetupTest()
+        public void SetupAppManager()
         {
-            appManager = new AppManager();
-            appManager.Navigator.GoToMainPage();
-            appManager.Auth.Login(new AccountData("admin", "secret"));
-        }
-
-        [TearDown]
-        public void TeardownTest()
-        {
-            appManager.StopDriver();
+            appManager = AppManager.GetInstance();
         }
     }
 }

@@ -4,21 +4,44 @@ namespace WebAddressbookTests
 {
     public class NavigationHelper : HelperBase
     {
-        private string baseUrl;
-
-        public NavigationHelper(IWebDriver _driver, string _baseUrl) : base(_driver)
+        private string _baseURL;
+        public NavigationHelper(AppManager _manager, string baseURL) : base(_manager)
         {
-            this.baseUrl = _baseUrl;
+            _baseURL = baseURL;
         }
 
         public void GoToMainPage()
         {
-            driver.Navigate().GoToUrl(baseUrl + "/addressbook");
+            if (driver.Url == _baseURL + "/addressbook/")
+            {
+                return;
+            }
+            driver.Navigate().GoToUrl(_baseURL + "/addressbook/");
+        }
+
+        public void GoToHomePage()
+        {
+            driver.FindElement(By.LinkText("home")).Click();
         }
 
         public void GoToGroupsPage()
         {
+            if (driver.Url == _baseURL + "/addressbook/group.php"
+                && IsElementPresent(By.Name("new")))
+            {
+                return;
+            }
             driver.FindElement(By.LinkText("groups")).Click();
+        }
+
+        public void GoToContactsPage()
+        {
+            driver.FindElement(By.LinkText("home")).Click();
+            if (driver.Url == _baseURL + "/addressbook/"
+                && IsElementPresent(By.Name("searchstring")))
+            {
+                return;
+            }
         }
     }
 }
