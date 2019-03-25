@@ -25,7 +25,7 @@ namespace WebAddressbookTests
             }
             set
             {
-                password = value;
+                username = value;
             }
         }
         public string Password

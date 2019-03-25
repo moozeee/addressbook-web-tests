@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using addressbook_web_tests;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace WebAddressbookTests
 {
@@ -8,15 +10,19 @@ namespace WebAddressbookTests
         [Test]
         public void GroupRemovalTest()
         {
-            //appManager.Navigator.GoToGroupsPage();
-            //for (int i = 0; i < 5; i++)
-            //{
-            //appManager.Groups.Remove(1);
-            //appManager.Auth.Logout();
-            //}
-            //appManager.Auth.Logout();
+            appManager.Navigator.GoToGroupsPage();
+            List<GroupData> oldGroupList = appManager.Groups.GetGroupList();
+            
+            appManager.Groups.SelectGroup(0)
+                .RemoveGroup()
+                .ReturnToGroupsPage();
 
-            appManager.Groups.RemoveGroup(1);
+            var newGroupList = appManager.Groups.GetGroupList();
+            oldGroupList.RemoveAt(0);
+
+            Assert.AreEqual(oldGroupList, newGroupList);
+
+            appManager.Auth.Logout();
         }
     }
 }

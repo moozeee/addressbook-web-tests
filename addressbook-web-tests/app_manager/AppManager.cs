@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
 
 namespace WebAddressbookTests
 {
@@ -19,7 +18,7 @@ namespace WebAddressbookTests
 
         private AppManager()
         {
-            driver = new FirefoxDriver();
+            driver = new OpenQA.Selenium.Chrome.ChromeDriver();
             driver.Manage().Window.Maximize();
             baseURL = "http://localhost";
 

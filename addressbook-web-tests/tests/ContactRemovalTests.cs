@@ -1,22 +1,28 @@
-﻿using NUnit.Framework;
+﻿using addressbook_web_tests;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactRemovalTests : AuthTestBase
+    public class ContactRemovalTests : TestBase
     {
         [Test]
         public void ContactRemovalTest()
         {
-            //appManager.Navigator.GoToGroupsPage();
-            //for (int i = 0; i < 5; i++)
-            //{
-            //appManager.Groups.Remove(1);
-            //appManager.Auth.Logout();
-            //}
-            //appManager.Auth.Logout();
+            appManager.Navigator.GoToMainPage();
+            List<ContactData> oldContactList = appManager.Contacts.GetContactList();
+            
+            appManager.Contacts.SelectContact(0)
+                .RemoveContact()
+                .ReturnToContactsPage();
 
-            appManager.Contacts.RemoveContact(1);
+            var newContactList = appManager.Contacts.GetContactList();
+            oldContactList.RemoveAt(0);
+
+            Assert.AreEqual(oldContactList, newContactList);
+
+            appManager.Auth.Logout();
         }
     }
 }

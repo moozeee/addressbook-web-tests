@@ -81,6 +81,7 @@ namespace WebAddressbookTests
         {
             CreateGroupIfItIsNotPresent();
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
             return this;
         }
 
@@ -99,6 +100,7 @@ namespace WebAddressbookTests
         private void ClickRemoveButton()
         {
             driver.FindElement(By.XPath("(//input[@name='delete'])[2]")).Click();
+            return this;
         }
 
         public GroupHelper FillGroupFields(GroupData data)
@@ -121,21 +123,13 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public static GroupData GetRandomGroupData()
+        public GroupData GetRandomGroupData()
         {
             //GroupData group = HelperBase.GetRandomObjectData(HelperBase.availableData.Group);
             GroupData group = new GroupData(GetRandomWord());
             group.Header = GetRandomWord();
             group.Footer = GetRandomWord();
             return group;
-        }
-        private void CreateGroupIfItIsNotPresent()
-        {
-            if (!IsElementPresent(By.Name("selected[]")))
-            {
-                _manager.Groups.CreateEmptyGroup();
-                _manager.Navigator.GoToGroupsPage();
-            }
         }
     }
 }
