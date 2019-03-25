@@ -125,5 +125,6 @@ namespace WebAddressbookTests
                 _manager.Navigator.GoToHomePage();
             }
         }
+        //просто так
     }
 }
