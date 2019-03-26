@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OpenQA.Selenium;
 
 namespace WebAddressbookTests
@@ -9,19 +10,14 @@ namespace WebAddressbookTests
         {
         }
 
-        public ContactHelper CreateContact()
+        public ContactHelper CreateContact(bool empty)
         {
             _manager.Navigator.GoToContactsPage();
             InitNewContactCreation();
-            FillContactForm(GetRandomContactData());
-            SubmitContact();
-            return this;
-        }
-
-        public ContactHelper CreateEmptyContact()
-        {
-            _manager.Navigator.GoToContactsPage();
-            InitNewContactCreation();
+            if (!empty)
+            {
+                FillContactForm(GetRandomContactData());
+            }
             SubmitContact();
             return this;
         }
@@ -55,7 +51,7 @@ namespace WebAddressbookTests
 
         public ContactHelper ReturnToContactsPage()
         {
-            driver.FindElement(By.LinkText("home page")).Click();
+            driver.FindElement(By.LinkText("home")).Click();
             return this;
         }
 
@@ -81,8 +77,8 @@ namespace WebAddressbookTests
         public ContactHelper SelectContact(int contactNum)
         {
             CreateContactIfItIsNotPresent();
-            var rowNum = contactNum + 1;
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + rowNum + "]/td/input")).Click();
+            //var rowNum = contactNum + 1;
+            driver.FindElement(By.XPath("//table//tr[@name='entry'][" + contactNum + "]//input")).Click();
             return this;
         }
 
@@ -121,10 +117,23 @@ namespace WebAddressbookTests
             IWebElement itemsAmount = driver.FindElement(By.Id("search_count"));
             if (Int32.Parse(itemsAmount.Text) == 0)
             {
-                _manager.Contacts.CreateEmptyContact();
+                _manager.Contacts.CreateContact(false);
                 _manager.Navigator.GoToHomePage();
             }
         }
-        //просто так
+
+        public List<ContactData> GetContactList()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            _manager.Navigator.GoToContactsPage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name='entry']"));
+            foreach (IWebElement element in elements)
+            {
+                var info = element.FindElements(By.CssSelector("td"));
+                var contact = new ContactData(info[1].Text, info[2].Text);
+                contacts.Add(contact);
+            }
+            return contacts;
+        }
     }
 }

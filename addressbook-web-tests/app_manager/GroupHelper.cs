@@ -15,20 +15,14 @@ namespace WebAddressbookTests
         {
         }
 
-        public GroupHelper CreateEmptyGroup()
+        public GroupHelper CreateGroup(bool empty)
         {
             _manager.Navigator.GoToGroupsPage();
             InitNewGroupCreation();
-            SubmitGroup();
-            ReturnToGroupsPage();
-            return this;
-        }
-
-        public GroupHelper CreateGroup()
-        {
-            _manager.Navigator.GoToGroupsPage();
-            InitNewGroupCreation();
-            FillGroupFields(GetRandomGroupData());
+            if (!empty)
+            {
+                FillGroupFields(GetRandomGroupData());
+            }
             SubmitGroup();
             ReturnToGroupsPage();
             return this;
@@ -39,7 +33,6 @@ namespace WebAddressbookTests
             _manager.Navigator.GoToGroupsPage();
             SelectGroup(groupNumber);
             ClickRemoveButton();
-            ReturnToGroupsPage();
             return this;
         }
 
@@ -80,9 +73,17 @@ namespace WebAddressbookTests
         public GroupHelper SelectGroup(int index)
         {
             CreateGroupIfItIsNotPresent();
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
+            driver.FindElement(By.XPath("//span[@class='group'][" + index + "]/input")).Click();
             return this;
+        }
+
+        private void CreateGroupIfItIsNotPresent()
+        {
+            if (!IsElementPresent(By.Name("selected[]")))
+            {
+                _manager.Groups.CreateGroup(true);
+                _manager.Navigator.GoToGroupsPage();
+            }
         }
 
         public GroupHelper SubmitGroup()
@@ -97,7 +98,7 @@ namespace WebAddressbookTests
             return this;
         }
 
-        private void ClickRemoveButton()
+        private GroupHelper ClickRemoveButton()
         {
             driver.FindElement(By.XPath("(//input[@name='delete'])[2]")).Click();
             return this;
@@ -130,6 +131,18 @@ namespace WebAddressbookTests
             group.Header = GetRandomWord();
             group.Footer = GetRandomWord();
             return group;
+        }
+
+        public List<GroupData> GetGroupList()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            _manager.Navigator.GoToGroupsPage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+            foreach (IWebElement element in elements)
+            {
+                groups.Add(new GroupData(element.Text));
+            }
+            return groups;
         }
     }
 }

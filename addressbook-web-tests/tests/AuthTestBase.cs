@@ -1,7 +1,7 @@
-﻿using addressbook_web_tests;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using WebAddressbookTests;
 
-namespace WebAddressbookTests
+namespace addressbook_web_tests.tests
 {
     public class AuthTestBase : TestBase
     {

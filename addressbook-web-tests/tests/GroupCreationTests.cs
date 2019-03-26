@@ -1,8 +1,7 @@
 ﻿using addressbook_web_tests;
 using NUnit.Framework;
-using Microsoft.CSharp;
-using System;
 using System.Collections.Generic;
+using addressbook_web_tests.tests;
 
 namespace WebAddressbookTests
 {
@@ -15,9 +14,9 @@ namespace WebAddressbookTests
             appManager.Navigator.GoToGroupsPage();
             List<GroupData> oldGroupList = appManager.Groups.GetGroupList();
 
-            appManager.Groups.Create(false);
+            appManager.Groups.CreateGroup(false);
 
-            var newGroupList = appManager.Groups.GetGroupList();
+            var newGroupList = appManager.Groups. GetGroupList();
             Assert.AreEqual(oldGroupList.Count + 1, newGroupList.Count);
             appManager.Auth.Logout();
         }

@@ -1,4 +1,5 @@
 ﻿using addressbook_web_tests;
+using addressbook_web_tests.tests;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -13,8 +14,8 @@ namespace WebAddressbookTests
             appManager.Navigator.GoToGroupsPage();
             List<GroupData> oldGroupList = appManager.Groups.GetGroupList();
             
-            appManager.Groups.SelectGroup(0)
-                .RemoveGroup()
+            appManager.Groups
+                .RemoveGroup(1)
                 .ReturnToGroupsPage();
 
             var newGroupList = appManager.Groups.GetGroupList();
