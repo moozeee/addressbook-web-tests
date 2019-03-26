@@ -55,12 +55,12 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper InitContactModification(int contactNum)
+        public ContactHelper InitContactModification(int rowNum)
         {
             CreateContactIfItIsNotPresent();
-            var rowNum = contactNum + 1;
+            //var rowNum = contactNum + 1;
             _manager.Navigator.GoToHomePage();
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + rowNum + "]/td[8]/a/img")).Click();
+            driver.FindElement(By.XPath("//table[@id='maintable']//tr[@name='entry'][" + rowNum + "]/td[8]/a/img")).Click();
             return this;
         }
 
@@ -103,7 +103,7 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public static ContactData GetRandomContactData()
+        public ContactData GetRandomContactData()
         {
             //ContactData contact = HelperBase.GetRandomObjectData(HelperBase.availableData.Contact);
             ContactData contact = new ContactData(GetRandomWord(), GetRandomWord());
@@ -134,6 +134,21 @@ namespace WebAddressbookTests
                 contacts.Add(contact);
             }
             return contacts;
+        }
+
+        public ContactData GetContactData(int rowNum)
+        {
+            IWebElement element = driver.FindElement(By.XPath("//tr[@name='entry'][" + rowNum + "]"));
+
+            ContactData data = new ContactData();
+            data.LastName = element.FindElement(By.XPath("td[2]")).Text;
+            data.FirstName = element.FindElement(By.XPath("td[3]")).Text; ;
+            return data;
+        }
+
+        public bool IsContactInContactList(ContactData data, List<ContactData> list)
+        {
+            return list.Contains(data);
         }
     }
 }

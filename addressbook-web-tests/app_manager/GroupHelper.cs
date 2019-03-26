@@ -144,5 +144,16 @@ namespace WebAddressbookTests
             }
             return groups;
         }
+
+        public GroupData GetGroupData(int rowNum)
+        {
+            IWebElement element = driver.FindElement(By.XPath("//span[@class='group'][" + rowNum + "]"));
+            return new GroupData(element.Text);
+        }
+
+        public bool IsGroupInGroupList(GroupData data, List<GroupData> list)
+        {
+            return list.Contains(data);
+        }
     }
 }
