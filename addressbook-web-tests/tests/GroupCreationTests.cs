@@ -13,11 +13,15 @@ namespace WebAddressbookTests
         {
             appManager.Navigator.GoToGroupsPage();
             List<GroupData> oldGroupList = appManager.Groups.GetGroupList();
-
-            appManager.Groups.CreateGroup(false);
+            GroupData group = new GroupData("Test Group");
+            appManager.Groups.CreateGroup(group);
 
             var newGroupList = appManager.Groups. GetGroupList();
-            Assert.AreEqual(oldGroupList.Count + 1, newGroupList.Count);
+            oldGroupList.Add(group);
+            oldGroupList.Sort();
+            newGroupList.Sort();
+            Assert.AreEqual(oldGroupList, newGroupList);
+            //Assert.AreEqual(oldGroupList.Count + 1, newGroupList.Count);
             appManager.Auth.Logout();
         }
     }

@@ -28,6 +28,16 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public GroupHelper CreateGroup(GroupData data)
+        {
+            _manager.Navigator.GoToGroupsPage();
+            InitNewGroupCreation();
+            FillGroupFields(data);
+            SubmitGroup();
+            ReturnToGroupsPage();
+            return this;
+        }
+
         public GroupHelper RemoveGroup(int groupNumber)
         {
             _manager.Navigator.GoToGroupsPage();
