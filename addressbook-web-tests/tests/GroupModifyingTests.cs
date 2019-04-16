@@ -10,7 +10,7 @@ namespace WebAddressbookTests
     public class GroupModifyingTests : AuthTestBase
     {
         [Test]
-        public void GroupModifyTest()
+         public void GroupModifyTest()
         {
             appManager.Navigator.GoToGroupsPage();
             var rowNum = new Random().Next(1, appManager.Groups.GetGroupList().Count);

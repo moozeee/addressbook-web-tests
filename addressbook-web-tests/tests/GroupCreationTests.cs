@@ -9,19 +9,28 @@ namespace WebAddressbookTests
     public class GroupCreationTests : AuthTestBase
     {
         [Test]
-        public void GroupCreationTest()
+         public void GroupCreationTest()
         {
             appManager.Navigator.GoToGroupsPage();
             List<GroupData> oldGroupList = appManager.Groups.GetGroupList();
-            GroupData group = new GroupData("Test Group");
+            GroupData group = new GroupData(appManager.Groups.GetRandomWord());
             appManager.Groups.CreateGroup(group);
 
-            var newGroupList = appManager.Groups. GetGroupList();
+            var newGroupList = appManager.Groups.GetGroupList();
             oldGroupList.Add(group);
             oldGroupList.Sort();
             newGroupList.Sort();
             Assert.AreEqual(oldGroupList, newGroupList);
+
             //Assert.AreEqual(oldGroupList.Count + 1, newGroupList.Count);
+
+            //for (int i = 0; i < 10; i++)
+            //{
+            // Here Should be any code for executing in cycle
+            //    
+            //}
+
+
             appManager.Auth.Logout();
         }
     }

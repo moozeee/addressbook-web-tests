@@ -10,6 +10,8 @@ namespace WebAddressbookTests
         {
         }
 
+        private List<ContactData> contactCache = null;
+
         public ContactHelper CreateContact(bool empty)
         {
             _manager.Navigator.GoToContactsPage();
@@ -31,6 +33,16 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public ContactHelper ModifyContact(int contactNum, ContactData data)
+        {
+            _manager.Navigator.GoToContactsPage();
+            InitContactModification(contactNum);
+            FillContactForm(data);
+            UpdateContact();
+            ReturnToContactsPage();
+            return this;
+        }
+
         public ContactHelper ModifyContact(int contactNum)
         {
             _manager.Navigator.GoToContactsPage();
@@ -40,6 +52,7 @@ namespace WebAddressbookTests
             ReturnToContactsPage();
             return this;
         }
+
         public ContactHelper RemoveContact(int contactNum)
         {
             _manager.Navigator.GoToContactsPage();
@@ -124,16 +137,20 @@ namespace WebAddressbookTests
 
         public List<ContactData> GetContactList()
         {
-            List<ContactData> contacts = new List<ContactData>();
-            _manager.Navigator.GoToContactsPage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name='entry']"));
-            foreach (IWebElement element in elements)
+            if (contactCache == null)
             {
-                var info = element.FindElements(By.CssSelector("td"));
-                var contact = new ContactData(info[1].Text, info[2].Text);
-                contacts.Add(contact);
+                contactCache = new List<ContactData>();
+                _manager.Navigator.GoToContactsPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name='entry']"));
+                foreach (IWebElement element in elements)
+                {
+                    var info = element.FindElements(By.CssSelector("td"));
+                    var contact = new ContactData(info[2].Text, info[1].Text);
+                    contactCache.Add(contact);
+                }
             }
-            return contacts;
+            
+            return new List<ContactData>(contactCache);
         }
 
         public ContactData GetContactData(int rowNum)
