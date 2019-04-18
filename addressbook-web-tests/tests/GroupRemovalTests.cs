@@ -13,15 +13,23 @@ namespace WebAddressbookTests
         {
             appManager.Navigator.GoToGroupsPage();
             List<GroupData> oldGroupList = appManager.Groups.GetGroupList();
-            
+            int _rowNumToDelete = 1;
+
             appManager.Groups
-                .RemoveGroup(1)
+                .RemoveGroup(_rowNumToDelete)
                 .ReturnToGroupsPage();
 
             var newGroupList = appManager.Groups.GetGroupList();
-            oldGroupList.RemoveAt(0);
+
+            GroupData toBeRemoved = oldGroupList[_rowNumToDelete - 1];
+            oldGroupList.RemoveAt(_rowNumToDelete - 1);
 
             Assert.AreEqual(oldGroupList, newGroupList);
+
+            foreach (GroupData group in newGroupList)
+            {
+                Assert.AreNotEqual(group.Id, toBeRemoved.Id);
+            }
 
             appManager.Auth.Logout();
         }

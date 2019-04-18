@@ -22,7 +22,14 @@ namespace WebAddressbookTests
             appManager.Groups.ModifyGroup(rowNum, newGroup);
 
             var newGroupList = appManager.Groups.GetGroupList();
-            oldGroupList[rowNum - 1].Name = newGroup.Name;
+            foreach (GroupData group in oldGroupList)
+            {
+                if (group.Id == modifiedGroup.Id)
+                {
+                    group.Name = newGroup.Name;
+                    break;
+                }
+            }
             oldGroupList.Sort();
             newGroupList.Sort();
             Assert.AreEqual(oldGroupList, newGroupList);

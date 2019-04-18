@@ -80,11 +80,13 @@ namespace WebAddressbookTests
         private void ClickRemoveButton()
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            contactCache = null;
         }
 
         private void UpdateContact()
         {
             driver.FindElement(By.XPath("//input[@name='update']")).Click();
+            contactCache = null;
         }
 
         public ContactHelper SelectContact(int contactNum)
@@ -145,7 +147,10 @@ namespace WebAddressbookTests
                 foreach (IWebElement element in elements)
                 {
                     var info = element.FindElements(By.CssSelector("td"));
-                    var contact = new ContactData(info[2].Text, info[1].Text);
+                    var contact = new ContactData(info[2].Text, info[1].Text)
+                    {
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    };
                     contactCache.Add(contact);
                 }
             }
@@ -159,7 +164,8 @@ namespace WebAddressbookTests
 
             ContactData data = new ContactData();
             data.LastName = element.FindElement(By.XPath("td[2]")).Text;
-            data.FirstName = element.FindElement(By.XPath("td[3]")).Text; ;
+            data.FirstName = element.FindElement(By.XPath("td[3]")).Text;
+            data.Id = element.FindElement(By.TagName("input")).GetAttribute("id");
             return data;
         }
 

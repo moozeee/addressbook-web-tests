@@ -157,7 +157,10 @@ namespace WebAddressbookTests
                 ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
                 foreach (IWebElement element in elements)
                 {
-                    groupCache.Add(new GroupData(element.Text));
+                    groupCache.Add(new GroupData(element.Text)
+                    {
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    });
                 }
             }
             return new List<GroupData>(groupCache);
@@ -166,7 +169,10 @@ namespace WebAddressbookTests
         public GroupData GetGroupData(int rowNum)
         {
             IWebElement element = driver.FindElement(By.XPath("//span[@class='group'][" + rowNum + "]"));
-            return new GroupData(element.Text);
+            return new GroupData(element.Text)
+            {
+                Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+            };
         }
 
         public bool IsGroupInGroupList(GroupData data, List<GroupData> list)
