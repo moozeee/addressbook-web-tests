@@ -8,7 +8,9 @@ namespace addressbook_web_tests.tests
         [SetUp]
         public void SetupLogin()
         {
-            appManager.Auth.Login(new AccountData("admin", "secret"));
+            AccountData user = new AccountData("admin", "secret");
+            appManager.Auth.Login(user);
+            appManager.Auth.AssertLoginSuccess(user);
         }
     }
 }

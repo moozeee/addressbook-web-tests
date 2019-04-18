@@ -33,5 +33,19 @@ namespace WebAddressbookTests
 
             appManager.Auth.Logout();
         }
+
+        [Test]
+        public void EmptyGroupCreationTest()
+        {
+            appManager.Navigator.GoToGroupsPage();
+            List<GroupData> oldGroupList = appManager.Groups.GetGroupList();
+            appManager.Groups.CreateGroup(true);
+            var newGroupList = appManager.Groups.GetGroupList();
+            oldGroupList.Add(new GroupData(""));
+            oldGroupList.Sort();
+            newGroupList.Sort();
+            Assert.AreEqual(oldGroupList, newGroupList);
+            appManager.Auth.Logout();
+        }
     }
 }

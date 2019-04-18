@@ -65,6 +65,7 @@
     <Compile Include="model\ContactData.cs" />
     <Compile Include="model\AccountData.cs" />
     <Compile Include="tests\AuthTestBase.cs" />
+    <Compile Include="tests\AuthorizationTests.cs" />
     <Compile Include="tests\GroupModifyingTests.cs" />
     <Compile Include="tests\ContactModifyingTests.cs" />
     <Compile Include="tests\ContactCreationTests.cs" />
